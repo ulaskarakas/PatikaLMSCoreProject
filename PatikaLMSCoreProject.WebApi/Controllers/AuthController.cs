@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PatikaLMSCoreProject.Business.Operations.User;
 using PatikaLMSCoreProject.Business.Operations.User.Dtos;
+using PatikaLMSCoreProject.WebApi.Jwt;
 using PatikaLMSCoreProject.WebApi.Models;
 
 namespace PatikaLMSCoreProject.WebApi.Controllers
@@ -58,7 +60,35 @@ namespace PatikaLMSCoreProject.WebApi.Controllers
                 return BadRequest(result.Message);
             }
 
-            //TODO: JWT will be added.
+            var user = result.Data;
+
+            var configuration = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+
+            var token = JwtHelper.GenerateJwtToken(new JwtDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserType = user.UserType,
+                SecretKey = configuration["Jwt:SecretKey"]!,
+                Issuer = configuration["Jwt:Issuer"]!,
+                Audience = configuration["Jwt:Audience"]!,
+                ExpireMinutes = int.Parse(configuration["Jwt:ExpireMinutes"]!)
+            });
+
+            return Ok(new LoginResponse
+            {
+                Message = "Login completed successfully",
+                Token = token
+            });
+        }
+
+        [HttpGet("me")]
+        [Authorize] // Token yoksa cevap yok
+        public IActionResult GetMyUser()
+        {
+            return Ok();
         }
 
     }
