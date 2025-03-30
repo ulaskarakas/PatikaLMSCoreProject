@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using PatikaLMSCoreProject.Business.Operations.User;
 using PatikaLMSCoreProject.Data.Context;
+using PatikaLMSCoreProject.Data.Repositories;
+using PatikaLMSCoreProject.Data.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,11 @@ builder.Services.AddSwaggerGen();
 // Database Connection
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<PatikaLMSCoreProjectDbContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped<IUserService, UserManager>();
 
 var app = builder.Build();
 

@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PatikaLMSCoreProject.Business\PatikaLMSCoreProject.Business.csproj" />
   </ItemGroup>
 
