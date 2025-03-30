@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PatikaLMSCoreProject.Business.Operations.Feature;
 using PatikaLMSCoreProject.Business.Operations.Feature.Dtos;
@@ -17,6 +18,7 @@ namespace PatikaLMSCoreProject.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddFeature(AddFeatureRequest request)
         {
             var addFeatureDto = new AddFeatureDto
