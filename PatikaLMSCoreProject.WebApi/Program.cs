@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PatikaLMSCoreProject.Business.DataProtection;
+using PatikaLMSCoreProject.Business.Operations.Feature;
 using PatikaLMSCoreProject.Business.Operations.User;
 using PatikaLMSCoreProject.Data.Context;
 using PatikaLMSCoreProject.Data.Repositories;
@@ -76,7 +77,9 @@ builder.Services.AddDbContext<PatikaLMSCoreProjectDbContext>(options => options.
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+// Service Lifetimes for Operations
 builder.Services.AddScoped<IUserService, UserManager>();
+builder.Services.AddScoped<IFeatureService, FeatureManager>();
 
 var app = builder.Build();
 
