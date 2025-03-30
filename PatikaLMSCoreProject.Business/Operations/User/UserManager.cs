@@ -1,4 +1,5 @@
-﻿using PatikaLMSCoreProject.Business.Operations.User.Dtos;
+﻿using PatikaLMSCoreProject.Business.DataProtection;
+using PatikaLMSCoreProject.Business.Operations.User.Dtos;
 using PatikaLMSCoreProject.Business.Types;
 using PatikaLMSCoreProject.Data.Entities;
 using PatikaLMSCoreProject.Data.Enums;
@@ -11,11 +12,13 @@ namespace PatikaLMSCoreProject.Business.Operations.User
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<UserEntity> _userRepository;
+        private readonly IDataProtection _dataProtection;
 
-        public UserManager(IUnitOfWork unitOfWork, IRepository<UserEntity> userRepository)
+        public UserManager(IUnitOfWork unitOfWork, IRepository<UserEntity> userRepository, IDataProtection dataProtection)
         {
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
+            _dataProtection = dataProtection;
         }
 
         public async Task<ServiceMessage> AddUser(AddUserDto user)
@@ -34,7 +37,7 @@ namespace PatikaLMSCoreProject.Business.Operations.User
             var UserEntity = new UserEntity
             {
                 Email = user.Email,
-                Password = user.Password,
+                Password = _dataProtection.Protect(user.Password),
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 BirthDate = user.BirthDate,

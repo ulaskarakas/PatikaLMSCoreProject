@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
+using PatikaLMSCoreProject.Business.DataProtection;
 using PatikaLMSCoreProject.Business.Operations.User;
 using PatikaLMSCoreProject.Data.Context;
 using PatikaLMSCoreProject.Data.Repositories;
@@ -13,10 +15,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Protection
+builder.Services.AddScoped<IDataProtection, DataProtection>();
+var keysDirectory = new DirectoryInfo(Path.Combine(builder.Environment.ContentRootPath, "App_Data", "Keys"));
+builder.Services.AddDataProtection()
+                .SetApplicationName("PatikaLMSCoreProject")
+                .PersistKeysToFileSystem(keysDirectory);
+
 // Database Connection
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<PatikaLMSCoreProjectDbContext>(options => options.UseSqlServer(connectionString));
 
+// Service Lifetimes for Repository & UnitOfWork 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

@@ -25,7 +25,7 @@ namespace PatikaLMSCoreProject.WebApi.Controllers
             var addUserDto = new AddUserDto
             {
                 Email = request.Email,
-                Password = request.Password, // TODO: Encryption will be added
+                Password = request.Password,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 BirthDate = request.BirthDate
