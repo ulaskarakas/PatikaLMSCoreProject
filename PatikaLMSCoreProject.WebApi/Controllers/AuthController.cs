@@ -38,5 +38,28 @@ namespace PatikaLMSCoreProject.WebApi.Controllers
             else
                 return BadRequest(result.Message);
         }
+
+        [HttpPost("login")]
+        public IActionResult Login(LoginRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var loginUserDto = new LoginUserDto
+            {
+                Email = request.Email,
+                Password = request.Password,
+            };
+
+            var result = _userService.LoginUser(loginUserDto);
+
+            if (!result.IsSucceed)
+            {
+                return BadRequest(result.Message);
+            }
+
+            //TODO: JWT will be added.
+        }
+
     }
 }

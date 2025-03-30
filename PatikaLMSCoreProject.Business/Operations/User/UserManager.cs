@@ -60,5 +60,44 @@ namespace PatikaLMSCoreProject.Business.Operations.User
                 IsSucceed = true
             };
         }
+
+        public ServiceMessage<UserInfoDto> LoginUser(LoginUserDto user)
+        {
+            var userEntity = _userRepository.Get(x => x.Email.ToLower() == user.Email.ToLower());
+
+            if (userEntity is null)
+            {
+                return new ServiceMessage<UserInfoDto>
+                {
+                    IsSucceed = false,
+                    Message = "Username or password is incorrect"
+                };
+            }
+
+            var unprotectedPassword = _dataProtection.Unprotect(userEntity.Password);
+
+            if (unprotectedPassword == user.Password)
+            {
+                return new ServiceMessage<UserInfoDto>
+                {
+                    IsSucceed = true,
+                    Data = new UserInfoDto
+                    {
+                        Email = userEntity.Email,
+                        FirstName = userEntity.FirstName,
+                        LastName = userEntity.LastName,
+                        UserType = userEntity.UserType
+                    }
+                };
+            }
+            else
+            {
+                return new ServiceMessage<UserInfoDto>
+                {
+                    IsSucceed = false,
+                    Message = "Username or password is incorrect"
+                };
+            }
+        }
     }
 }

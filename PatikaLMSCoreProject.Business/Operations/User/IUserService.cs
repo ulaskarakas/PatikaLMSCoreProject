@@ -5,7 +5,7 @@ namespace PatikaLMSCoreProject.Business.Operations.User
 {
     public interface IUserService
     {
-        // Should be asynchronous because UnitOfWork will be used
-        Task<ServiceMessage> AddUser(AddUserDto user);
+        Task<ServiceMessage> AddUser(AddUserDto user); // Should be asynchronous because UnitOfWork will be used
+        ServiceMessage<UserInfoDto> LoginUser(LoginUserDto user);
     }
 }
