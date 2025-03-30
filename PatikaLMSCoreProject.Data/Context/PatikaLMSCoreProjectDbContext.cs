@@ -10,6 +10,19 @@ namespace PatikaLMSCoreProject.Data.Context
             
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Apply configurations
+            modelBuilder.ApplyConfiguration(new FeatureConfiguration());
+            modelBuilder.ApplyConfiguration(new CourseConfiguration());
+            modelBuilder.ApplyConfiguration(new CourseFeatureConfiguration());
+            modelBuilder.ApplyConfiguration(new EnrollmentConfiguration());
+            modelBuilder.ApplyConfiguration(new ModuleConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+
+            base.OnModelCreating(modelBuilder);
+        }
+
         public DbSet<UserEntity> Users => Set<UserEntity>();
         public DbSet<FeatureEntity> Features => Set<FeatureEntity>();
         public DbSet<CourseEntity> Courses => Set<CourseEntity>();

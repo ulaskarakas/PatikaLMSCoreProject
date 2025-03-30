@@ -1,4 +1,6 @@
-﻿namespace PatikaLMSCoreProject.Data.Entities
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace PatikaLMSCoreProject.Data.Entities
 {
     public class EnrollmentEntity : BaseEntity
     {
@@ -10,5 +12,13 @@
         // Relational Properties
         public UserEntity User { get; set; }
         public ModuleEntity Module { get; set; }
+    }
+
+    public class EnrollmentConfiguration : BaseConfiguration<EnrollmentEntity>
+    {
+        public override void Configure(EntityTypeBuilder<EnrollmentEntity> builder)
+        {
+            base.Configure(builder);
+        }
     }
 }

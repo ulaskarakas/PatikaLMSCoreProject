@@ -1,4 +1,5 @@
-﻿using PatikaLMSCoreProject.Data.Enums;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PatikaLMSCoreProject.Data.Enums;
 
 namespace PatikaLMSCoreProject.Data.Entities
 {
@@ -12,5 +13,18 @@ namespace PatikaLMSCoreProject.Data.Entities
         public UserType UserType { get; set; }
         // Relational Properties
         public ICollection<EnrollmentEntity> Enrollments { get; set; }
+    }
+
+    public class UserConfiguration : BaseConfiguration<UserEntity>
+    {
+        public override void Configure(EntityTypeBuilder<UserEntity> builder)
+        {
+            builder.Property(x => x.FirstName).IsRequired()
+                                              .HasMaxLength(40);
+            builder.Property(x => x.LastName).IsRequired()
+                                              .HasMaxLength(40);
+
+            base.Configure(builder);
+        }
     }
 }

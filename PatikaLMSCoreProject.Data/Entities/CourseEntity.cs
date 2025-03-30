@@ -1,4 +1,5 @@
-﻿using PatikaLMSCoreProject.Data.Enums;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PatikaLMSCoreProject.Data.Enums;
 
 namespace PatikaLMSCoreProject.Data.Entities
 {
@@ -10,5 +11,17 @@ namespace PatikaLMSCoreProject.Data.Entities
         // Relational Properties
         public ICollection<CourseFeatureEntity> CourseFeatures { get; set; }
         public ICollection<ModuleEntity> Modules { get; set; }
+    }
+
+    public class CourseConfiguration : BaseConfiguration<CourseEntity>
+    {
+        public override void Configure(EntityTypeBuilder<CourseEntity> builder)
+        {
+            builder.Property(x => x.Stars).IsRequired(false);
+            builder.Property(x => x.Name).IsRequired()
+                                         .HasMaxLength(80);
+
+            base.Configure(builder);
+        }
     }
 }
