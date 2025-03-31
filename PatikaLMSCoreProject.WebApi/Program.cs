@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PatikaLMSCoreProject.Business.DataProtection;
+using PatikaLMSCoreProject.Business.Operations.Course;
 using PatikaLMSCoreProject.Business.Operations.Feature;
 using PatikaLMSCoreProject.Business.Operations.User;
 using PatikaLMSCoreProject.Data.Context;
@@ -80,6 +81,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Service Lifetimes for Operations
 builder.Services.AddScoped<IUserService, UserManager>();
 builder.Services.AddScoped<IFeatureService, FeatureManager>();
+builder.Services.AddScoped<ICourseService, CourseManager>();
 
 var app = builder.Build();
 
