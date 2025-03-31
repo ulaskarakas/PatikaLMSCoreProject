@@ -54,5 +54,29 @@ namespace PatikaLMSCoreProject.WebApi.Controllers
 
             return Ok(courses);
         }
+
+        [HttpPatch("{id}/stars")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AdjustCourseStars(int id, int changeTo)
+        {
+            var result = await _courseService.AdjustCourseStars(id, changeTo);
+
+            if (!result.IsSucceed)
+                return NotFound(result.Message);
+            else
+                return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteCourse(int id)
+        {
+            var result = await _courseService.DeleteCourse(id);
+
+            if (!result.IsSucceed)
+                return NotFound(result.Message);
+            else
+                return Ok();
+        }
     }
 }

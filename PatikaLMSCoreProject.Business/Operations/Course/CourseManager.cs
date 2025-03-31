@@ -117,5 +117,67 @@ namespace PatikaLMSCoreProject.Business.Operations.Course
                                         }).ToListAsync();
             return courses;
         }
+
+        public async Task<ServiceMessage> AdjustCourseStars(int id, int changeTo)
+        {
+            var course = _courseRepository.GetById(id);
+
+            if (course is null)
+            {
+                return new ServiceMessage
+                {
+                    IsSucceed = false,
+                    Message = "No course found matching this id"
+                };
+            }
+
+            course.Stars = changeTo;
+
+            _courseRepository.Update(course);
+
+            try
+            {
+                await _unitOfWork.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw new Exception("An error occurred while changing the course rating");
+            }
+
+            return new ServiceMessage
+            {
+                IsSucceed = true
+            };
+        }
+
+        public async Task<ServiceMessage> DeleteCourse(int id)
+        {
+            var course = _courseRepository.GetById(id);
+
+            if (course is null)
+            {
+                return new ServiceMessage
+                {
+                    IsSucceed = false,
+                    Message = "No course found matching this id"
+                };
+            }
+
+            _courseRepository.Delete(id);
+
+            try
+            {
+                await _unitOfWork.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw new Exception("An error occurred during the deletion process");
+            }
+
+            return new ServiceMessage
+            {
+                IsSucceed = true
+            };
+        }
     }
 }
