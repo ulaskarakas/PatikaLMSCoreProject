@@ -78,5 +78,26 @@ namespace PatikaLMSCoreProject.WebApi.Controllers
             else
                 return Ok();
         }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateCourse(int id, UpdateCourseRequest request)
+        {
+            var updateCourseDto = new UpdateCourseDto
+            {
+                Id = id,
+                Name = request.Name,
+                Stars = request.Stars,
+                EducationType = request.EducationType,
+                FeatureIds = request.FeatureIds
+            };
+
+            var result = await _courseService.UpdateCourse(updateCourseDto);
+
+            if (!result.IsSucceed)
+                return NotFound(result.Message);
+            else
+                return await GetCourse(id);
+        }
     }
 }

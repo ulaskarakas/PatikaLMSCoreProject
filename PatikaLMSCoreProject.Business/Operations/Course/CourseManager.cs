@@ -179,5 +179,71 @@ namespace PatikaLMSCoreProject.Business.Operations.Course
                 IsSucceed = true
             };
         }
+
+        public async Task<ServiceMessage> UpdateCourse(UpdateCourseDto course)
+        {
+            var courseEntity = _courseRepository.GetById(course.Id);
+
+            if (courseEntity is null)
+            {
+                return new ServiceMessage
+                {
+                    IsSucceed = false,
+                    Message = "Course not found"
+                };
+            }
+
+            await _unitOfWork.BeginTransaction();
+
+            courseEntity.Name = course.Name;
+            courseEntity.Stars = course.Stars;
+            courseEntity.EducationType = course.EducationType;
+
+            _courseRepository.Update(courseEntity);
+
+            try
+            {
+                await _unitOfWork.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                await _unitOfWork.RollbackTransaction();
+                throw new Exception("An error was occured while updating course information");
+            }
+
+            var courseFeatures = _courseFeatureRepository.GetAll(x => x.CourseId == x.CourseId).ToList();
+
+            foreach (var courseFeature in courseFeatures)
+            {
+                _courseFeatureRepository.Delete(courseFeature, false); // Hard delete
+            }
+
+            foreach (var featureId in course.FeatureIds)
+            {
+                var courseFeature = new CourseFeatureEntity
+                {
+                    CourseId = courseEntity.Id,
+                    FeatureId = featureId
+                };
+
+                _courseFeatureRepository.Add(courseFeature);
+            }
+
+            try
+            {
+                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitTransaction();
+            }
+            catch (Exception)
+            {
+                await _unitOfWork.RollbackTransaction();
+                throw new Exception("An error occurred while updating course information, so all actions were rolled back.");
+            }
+
+            return new ServiceMessage
+            {
+                IsSucceed = true
+            };
+        }
     }
 }

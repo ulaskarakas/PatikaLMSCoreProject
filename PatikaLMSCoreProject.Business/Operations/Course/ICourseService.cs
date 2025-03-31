@@ -10,5 +10,6 @@ namespace PatikaLMSCoreProject.Business.Operations.Course
         Task<List<CourseDto>> GetCourses();
         Task<ServiceMessage> AdjustCourseStars(int id, int changeTo);
         Task<ServiceMessage> DeleteCourse(int id);
+        Task<ServiceMessage> UpdateCourse(UpdateCourseDto course);
     }
 }

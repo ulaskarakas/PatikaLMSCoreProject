@@ -23,11 +23,18 @@ namespace PatikaLMSCoreProject.Data.Repositories
             _dbSet.Add(entity);
         }
 
-        public void Delete(TEntity entity)
+        public void Delete(TEntity entity, bool softDelete = true)
         {
-            entity.ModifiedDate = DateTime.Now;
-            entity.IsDeleted = true;
-            _dbSet.Update(entity);
+            if (softDelete)
+            {
+                entity.ModifiedDate = DateTime.Now;
+                entity.IsDeleted = true;
+                _dbSet.Update(entity);
+            }
+            else
+            {
+                _dbSet.Remove(entity);
+            }
         }
 
         public void Delete(int id)
