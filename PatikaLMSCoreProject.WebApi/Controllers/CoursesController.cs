@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PatikaLMSCoreProject.Business.Operations.Course;
 using PatikaLMSCoreProject.Business.Operations.Course.Dtos;
+using PatikaLMSCoreProject.WebApi.Filters;
 using PatikaLMSCoreProject.WebApi.Models;
 
 namespace PatikaLMSCoreProject.WebApi.Controllers
@@ -81,6 +82,7 @@ namespace PatikaLMSCoreProject.WebApi.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
+        [TimeControlFilter]
         public async Task<IActionResult> UpdateCourse(int id, UpdateCourseRequest request)
         {
             var updateCourseDto = new UpdateCourseDto
