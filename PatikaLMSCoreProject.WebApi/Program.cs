@@ -6,10 +6,12 @@ using Microsoft.OpenApi.Models;
 using PatikaLMSCoreProject.Business.DataProtection;
 using PatikaLMSCoreProject.Business.Operations.Course;
 using PatikaLMSCoreProject.Business.Operations.Feature;
+using PatikaLMSCoreProject.Business.Operations.Setting;
 using PatikaLMSCoreProject.Business.Operations.User;
 using PatikaLMSCoreProject.Data.Context;
 using PatikaLMSCoreProject.Data.Repositories;
 using PatikaLMSCoreProject.Data.UnitOfWork;
+using PatikaLMSCoreProject.WebApi.Middlewares;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -82,6 +84,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserManager>();
 builder.Services.AddScoped<IFeatureService, FeatureManager>();
 builder.Services.AddScoped<ICourseService, CourseManager>();
+builder.Services.AddScoped<ISettingService, SettingManager>();
 
 var app = builder.Build();
 
@@ -91,6 +94,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//app.UseMiddleware<MaintenenceMiddleware>();
+app.UseMaintenenceMode();
 
 app.UseHttpsRedirection();
 

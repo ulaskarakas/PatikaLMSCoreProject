@@ -20,6 +20,14 @@ namespace PatikaLMSCoreProject.Data.Context
             modelBuilder.ApplyConfiguration(new ModuleConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
 
+            modelBuilder.Entity<SettingEntity>().HasData(
+                new SettingEntity
+                {
+                    Id = 1,
+                    MaintenenceMode = false
+                }
+            );
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -29,5 +37,6 @@ namespace PatikaLMSCoreProject.Data.Context
         public DbSet<CourseFeatureEntity> CourseFeatures => Set<CourseFeatureEntity>();
         public DbSet<EnrollmentEntity> Enrollments => Set<EnrollmentEntity>();
         public DbSet<ModuleEntity> Modules => Set<ModuleEntity>();
+        public DbSet<SettingEntity> Settings => Set<SettingEntity>();
     }
 }

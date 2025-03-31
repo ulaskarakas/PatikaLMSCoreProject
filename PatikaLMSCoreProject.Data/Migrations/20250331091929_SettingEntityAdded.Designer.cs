@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PatikaLMSCoreProject.Data.Context;
 
@@ -11,9 +12,11 @@ using PatikaLMSCoreProject.Data.Context;
 namespace PatikaLMSCoreProject.Data.Migrations
 {
     [DbContext(typeof(PatikaLMSCoreProjectDbContext))]
-    partial class PatikaLMSCoreProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250331091929_SettingEntityAdded")]
+    partial class SettingEntityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,7 +202,7 @@ namespace PatikaLMSCoreProject.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Settings");
+                    b.ToTable("SettingEntity");
 
                     b.HasData(
                         new
