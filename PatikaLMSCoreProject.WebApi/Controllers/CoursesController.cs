@@ -35,5 +35,24 @@ namespace PatikaLMSCoreProject.WebApi.Controllers
             else
                 return Ok();
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCourse(int id)
+        {
+            var course = await _courseService.GetCourse(id);
+
+            if (course is null)
+                return NotFound();
+            else
+                return Ok(course);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCourses()
+        {
+            var courses = await _courseService.GetCourses();
+
+            return Ok(courses);
+        }
     }
 }

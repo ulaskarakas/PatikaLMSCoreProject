@@ -1,4 +1,5 @@
-﻿using PatikaLMSCoreProject.Business.Operations.Course.Dtos;
+﻿using Microsoft.EntityFrameworkCore;
+using PatikaLMSCoreProject.Business.Operations.Course.Dtos;
 using PatikaLMSCoreProject.Business.Types;
 using PatikaLMSCoreProject.Data.Entities;
 using PatikaLMSCoreProject.Data.Repositories;
@@ -78,6 +79,43 @@ namespace PatikaLMSCoreProject.Business.Operations.Course
             {
                 IsSucceed = true
             };
+        }
+
+        public async Task<CourseDto> GetCourse(int id)
+        {
+            var course = await _courseRepository.GetAll(x => x.Id == id)
+                                        .Select(x => new CourseDto
+                                        {
+                                            Id = x.Id,
+                                            Name = x.Name,
+                                            Stars = x.Stars,
+                                            EducationType = x.EducationType,
+                                            Features = x.CourseFeatures.Select(f => new CourseFeatureDto
+                                            {
+                                                Id = f.Id,
+                                                Title = f.Feature.Title
+                                            }).ToList()
+                                        }).FirstOrDefaultAsync();
+
+            return course;
+        }
+
+        public async Task<List<CourseDto>> GetCourses()
+        {
+            var courses = await _courseRepository.GetAll()
+                                        .Select(x => new CourseDto
+                                        {
+                                            Id = x.Id,
+                                            Name = x.Name,
+                                            Stars = x.Stars,
+                                            EducationType = x.EducationType,
+                                            Features = x.CourseFeatures.Select(f => new CourseFeatureDto
+                                            {
+                                                Id = f.Id,
+                                                Title = f.Feature.Title
+                                            }).ToList()
+                                        }).ToListAsync();
+            return courses;
         }
     }
 }
