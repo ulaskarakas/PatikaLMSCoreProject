@@ -1,4 +1,5 @@
 ﻿using PatikaLMSCoreProject.Business.Operations.Setting;
+using System.Text.Json;
 
 namespace PatikaLMSCoreProject.WebApi.Middlewares
 {
@@ -25,7 +26,16 @@ namespace PatikaLMSCoreProject.WebApi.Middlewares
 
             if (maintenanceMode)
             {
-                await context.Response.WriteAsync("Unable to service due to maintenance");
+                context.Response.StatusCode = StatusCodes.Status503ServiceUnavailable;
+                context.Response.ContentType = "application/json";
+
+                var response = new
+                {
+                    message = "The service is temporarily unavailable due to maintenance."
+                };
+
+                await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+                return;
             }
             else
             {

@@ -95,6 +95,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseExceptionHandling();
 //app.UseMiddleware<MaintenenceMiddleware>();
 app.UseMaintenenceMode();
 
