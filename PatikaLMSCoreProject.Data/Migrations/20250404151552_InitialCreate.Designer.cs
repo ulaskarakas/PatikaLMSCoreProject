@@ -12,7 +12,7 @@ using PatikaLMSCoreProject.Data.Context;
 namespace PatikaLMSCoreProject.Data.Migrations
 {
     [DbContext(typeof(PatikaLMSCoreProjectDbContext))]
-    [Migration("20250330153525_InitialCreate")]
+    [Migration("20250404151552_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -178,6 +178,40 @@ namespace PatikaLMSCoreProject.Data.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Modules");
+                });
+
+            modelBuilder.Entity("PatikaLMSCoreProject.Data.Entities.SettingEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("MaintenenceMode")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Settings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            MaintenenceMode = false
+                        });
                 });
 
             modelBuilder.Entity("PatikaLMSCoreProject.Data.Entities.UserEntity", b =>
