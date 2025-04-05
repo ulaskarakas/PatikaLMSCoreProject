@@ -85,7 +85,7 @@ namespace PatikaLMSCoreProject.WebApi.Controllers
         }
 
         [HttpGet("me")]
-        [Authorize] // Token yoksa cevap yok
+        [Authorize] // If there is no token, there is no response
         public IActionResult GetMyUser()
         {
             return Ok();

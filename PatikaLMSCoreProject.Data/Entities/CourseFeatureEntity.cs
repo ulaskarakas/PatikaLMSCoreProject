@@ -15,8 +15,8 @@ namespace PatikaLMSCoreProject.Data.Entities
     {
         public override void Configure(EntityTypeBuilder<CourseFeatureEntity> builder)
         {
-            builder.Ignore(x => x.Id); // Id property'sini görmezden geldik, tabloya aktarılmayacak.
-            builder.HasKey("CourseId", "FeatureId"); // Composite Key oluşturup yeni Primary Key olarak atadık.
+            builder.Ignore(x => x.Id); // Id property is ignored, it will not be passed to the table
+            builder.HasKey("CourseId", "FeatureId"); // Composite Key was created and assigned as the new Primary Key
 
             base.Configure(builder);
         }
